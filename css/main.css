@@ -1124,7 +1124,7 @@ header .logo a {
 	color: transparent;
 	width: 130px;
 	height: 100px;
-	background: url("../images/logo.png") no-repeat center;
+	background: url("../images/logo.PNG") no-repeat center;
 	background-size: 130px 100px;
 }
 
