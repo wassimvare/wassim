@@ -13,15 +13,15 @@ if($_POST) {
 
    // Check Name
 	if (strlen($name) < 2) {
-		$error['name'] = "Please enter your name.";
+		$error['name'] = "S'il vous plaît entrez votre nom.";
 	}
 	// Check Email
 	if (!preg_match('/^[a-z0-9&\'\.\-_\+]+@[a-z0-9\-]+\.([a-z0-9\-]+\.)*+[a-z]{2}/is', $email)) {
-		$error['email'] = "Please enter a valid email address.";
+		$error['email'] = "S'il vous plaît, mettez une adresse email valide.";
 	}
 	// Check Message
 	if (strlen($contact_message) < 15) {
-		$error['message'] = "Please enter your message. It should have at least 15 characters.";
+		$error['message'] = "Veuillez entrer votre message. Il doit comporter au moins 15 caractères.";
 	}
    // Subject
 	if ($subject == '') { $subject = "Contact Form Submission"; }
@@ -32,7 +32,7 @@ if($_POST) {
 	$message .= "Email address: " . $email . "<br />";
    $message .= "Message: <br />";
    $message .= $contact_message;
-   $message .= "<br /> ----- <br /> This email was sent from your site's contact form. <br />";
+   $message .= "<br /> ----- <br /> Cet e-mail a été envoyé depuis le formulaire de contact de votre site. <br />";
 
    // Set From: header
    $from =  $name . " <" . $email . ">";
@@ -50,7 +50,7 @@ if($_POST) {
       $mail = mail($siteOwnersEmail, $subject, $message, $headers);
 
 		if ($mail) { echo "OK"; }
-      else { echo "Something went wrong. Please try again."; }
+      else { echo "Quelque chose s'est mal passé. Veuillez réessayer."; }
 		
 	} # end if - no validation error
 
