@@ -689,24 +689,25 @@
 
    		<div class="col-twelve">
 
+
             <!-- form -->
             <form name="contactForm" id="contactForm" method="post" action="">
       			<fieldset>
-
+				
                   <div class="form-field">
- 						   <input name="contactName" type="text" id="contactName" placeholder="Nom" value="" minlength="2" required="">
+ 						   <input name="name" type="text" id="name" placeholder="Nom" value="" minlength="2" required="">
                   </div>
                   <div class="form-field">
-	      			   <input name="contactEmail" type="email" id="contactEmail" placeholder="Mail" value="" required="">
+	      			   <input name="mail" type="email" id="mail" placeholder="Mail" value="" required="">
 	               </div>
                   <div class="form-field">
-	     				   <input name="contactSubject" type="text" id="contactSubject" placeholder="Sujet" value="">
+	     				   <input name="sujet" type="text" id="sujet" placeholder="Sujet" value="">
 	               </div>                       
                   <div class="form-field">
-	                 	<textarea name="contactMessage" id="contactMessage" placeholder="message" rows="10" cols="50" required=""></textarea>
+	                 	<textarea name="message" id="message" placeholder="message" rows="10" cols="50" required=""></textarea>
 	               </div>                      
                  <div class="form-field">
-                     <button class="submitform">Envoyer</button>
+                     <button name="envoyer" class="submitform">Envoyer</button>
                      <div id="submit-loader">
                         <div class="text-loader">Sending...</div>                             
        				      <div class="s-loader">

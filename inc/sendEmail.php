@@ -1,69 +1,50 @@
 ﻿<?php
 
 // Replace this with your own email address
-$siteOwnersEmail = 'varewassim7@gmail.com';
+$VotreAdresseMail="varewassim7@gmail.com";
+// si le bouton "Envoyer" est cliqué
+if(isset($_POST['envoyer'])) {
 
-
-if($_POST) {
-
-   $name = trim(stripslashes($_POST['contactName']));
-   $email = trim(stripslashes($_POST['contactEmail']));
-   $subject = trim(stripslashes($_POST['contactSubject']));
-   $contact_message = trim(stripslashes($_POST['contactMessage']));
-
-   // Check Name
-	if (strlen($name) < 2) {
-		$error['name'] = "S'il vous plaît entrez votre nom.";
+	if(empty($_POST['nom'])){
+		echo "Le champ nom est vide";
+	} else {
+		//on vérifie que le champ mail est correctement rempli
+		if(empty($_POST['mail'])) {
+			echo "Le champ mail est vide";
+		} else {
+			//on vérifie que l'adresse est correcte
+			if(!preg_match("#^[a-z0-9_-]+((\.[a-z0-9_-]+){1,})?@[a-z0-9_-]+((\.[a-z0-9_-]+){1,})?\.[a-z]{2,}$#i",$_POST['mail'])){
+				echo "L'adresse mail entrée est incorrecte";
+			}else{
+				//on vérifie que le champ sujet est correctement rempli
+				if(empty($_POST['sujet'])) {
+					echo "Le champ sujet est vide";
+				}else{
+					//on vérifie que le champ message n'est pas vide
+					if(empty($_POST['message'])) {
+						echo "Le champ message est vide";
+					}else{
+						//tout est correctement renseigné, on envoi le mail
+						//on renseigne les entêtes de la fonction mail de PHP
+						$Entetes = "MIME-Version: 1.0\r\n";
+						$Entetes .= "Content-type: text/html; charset=UTF-8\r\n";
+						$Entetes .= "From: Nom de votre site <".$_POST['mail'].">\r\n";//de préférence une adresse avec le même domaine de là où, vous utilisez ce code, cela permet un envoie quasi certain jusqu'au destinataire
+						$Entetes .= "Reply-To: Nom de votre site <".$_POST['mail'].">\r\n";
+						//on prépare les champs:
+						$name = $_POST['name'];
+						$Mail=$_POST['mail']; 
+						$Sujet='=?UTF-8?B?'.base64_encode($_POST['sujet']).'?=';//Cet encodage (base64_encode) est fait pour permettre aux informations binaires d'être manipulées par les systèmes qui ne gèrent pas correctement les 8 bits (=?UTF-8?B? est une norme afin de transmettre correctement les caractères de la chaine)
+						$Message=htmlentities($_POST['message'],ENT_QUOTES,"UTF-8");//htmlentities() converti tous les accents en entités HTML, ENT_QUOTES Convertit en + les guillemets doubles et les guillemets simples, en entités HTML
+						//en fin, on envoi le mail
+						if(mail($VotreAdresseMail,$Sujet,nl2br($Message),$Entetes)){//la fonction nl2br permet de conserver les sauts de ligne et la fonction base64_encode de conserver les accents dans le titre
+							echo "Le mail à été envoyé avec succès!";
+						} else {
+							echo "Une erreur est survenue, le mail n'a pas été envoyé";
+						}
+					}
+				}
+			}
+		}	
 	}
-	// Check Email
-	if (!preg_match('/^[a-z0-9&\'\.\-_\+]+@[a-z0-9\-]+\.([a-z0-9\-]+\.)*+[a-z]{2}/is', $email)) {
-		$error['email'] = "S'il vous plaît, mettez une adresse email valide.";
-	}
-	// Check Message
-	if (strlen($contact_message) < 15) {
-		$error['message'] = "Veuillez entrer votre message. Il doit comporter au moins 15 caractères.";
-	}
-   // Subject
-	if ($subject == '') { $subject = "Contact Form Submission"; }
-
-
-   // Set Message
-   $message .= "Email from: " . $name . "<br />";
-	$message .= "Email address: " . $email . "<br />";
-   $message .= "Message: <br />";
-   $message .= $contact_message;
-   $message .= "<br /> ----- <br /> Cet e-mail a été envoyé depuis le formulaire de contact de votre site. <br />";
-
-   // Set From: header
-   $from =  $name . " <" . $email . ">";
-
-   // Email Headers
-	$headers = "From: " . $from . "\r\n";
-	$headers .= "Reply-To: ". $email . "\r\n";
- 	$headers .= "MIME-Version: 1.0\r\n";
-	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-
-
-   if (!$error) {
-
-      ini_set("sendmail_from", $siteOwnersEmail); // for windows server
-      $mail = mail($siteOwnersEmail, $subject, $message, $headers);
-
-		if ($mail) { echo "OK"; }
-      else { echo "Quelque chose s'est mal passé. Veuillez réessayer."; }
-		
-	} # end if - no validation error
-
-	else {
-
-		$response = (isset($error['name'])) ? $error['name'] . "<br /> \n" : null;
-		$response .= (isset($error['email'])) ? $error['email'] . "<br /> \n" : null;
-		$response .= (isset($error['message'])) ? $error['message'] . "<br />" : null;
-		
-		echo $response;
-
-	} # end if - there was a validation error
-
 }
-
 ?>
