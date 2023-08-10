@@ -2,10 +2,10 @@
 
 // Replace this with your own email address
 
-$name = stripcslashes($_POST['contactName']);
-$email = stripcslashes($_POST['contactEmail']);
-$subject = stripcslashes($_POST['contactSubject']);
-$message = stripcslashes($_POST['contactMessage']);
+$name = stripcslashes($_GET['contactName']);
+$email = stripcslashes($_GET['contactEmail']);
+$subject = stripcslashes($_GET['contactSubject']);
+$message = stripcslashes($_GET['contactMessage']);
 
 
 
